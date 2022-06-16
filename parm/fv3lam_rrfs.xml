@@ -1647,13 +1647,6 @@
        </param>
 
        <param>
-       <shortname>RETOP_ON_ENTIRE_ATMOS_SINGLE_LYR</shortname>
-       <pname>RETOP</pname>
-       <table_info>NCEP</table_info>
-        <scale>6.0</scale>
-       </param>
-
-       <param>
        <shortname>VRATE_ON_PLANETARY_BOUND_LYR</shortname>
        <pname>VRATE</pname>
        <table_info>NCEP</table_info>
@@ -1754,9 +1747,19 @@
        </param>
 
        <param>
-       <shortname>VIL_ON_ENTIRE_ATMOS</shortname>
-       <pname>VIL</pname>
-       <scale>4.0</scale>
+       <shortname>GSD_ECHOTOP_ON_CLOUD_TOP</shortname>
+       <scale>6.0</scale>
+       </param>
+
+       <param>
+       <shortname>GSD_VIL_ON_ENTIRE_ATMOS</shortname>
+       <table_info>NCEP</table_info>
+       <scale>6.0</scale>
+       </param>
+
+       <param>
+       <shortname>GSD_RADARVIL_ON_ENTIRE_ATMOS</shortname>
+       <scale>6.0</scale>
        </param>
 
        <param>

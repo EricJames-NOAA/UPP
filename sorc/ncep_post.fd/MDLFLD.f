@@ -3055,7 +3055,7 @@ refl_adj:           IF(REF_10CM(I,J,L)<=DBZmin) THEN
 ! Use unipost reflectivity diagnostic otherwise
 !
       IF (IGET(768) > 0) THEN
-        IF(MODELNAME == 'RAPR' .AND. (IMP_PHYSICS == 8 .or. IMP_PHYSICS == 28)) THEN
+        IF((MODELNAME == 'RAPR' .or. MODELNAME == 'FV3R') .AND. (IMP_PHYSICS == 8 .or. IMP_PHYSICS == 28)) THEN
           DO J=JSTA,JEND
             DO I=1,IM
               GRID1(I,J) = -999.
@@ -3148,7 +3148,7 @@ refl_adj:           IF(REF_10CM(I,J,L)<=DBZmin) THEN
 ! Use unipost reflectivity diagnostic otherwise
 !
       IF (IGET(770) > 0) THEN
-        IF(MODELNAME == 'RAPR' .AND. (IMP_PHYSICS == 8 .or. IMP_PHYSICS == 28)) THEN
+        IF((MODELNAME == 'RAPR' .or. MODELNAME == 'FV3R') .AND. (IMP_PHYSICS == 8 .or. IMP_PHYSICS == 28)) THEN
           DO J=JSTA,JEND
             DO I=1,IM
               GRID1(I,J) = 0.0

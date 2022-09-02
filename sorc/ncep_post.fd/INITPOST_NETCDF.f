@@ -26,7 +26,7 @@
 
 
       use netcdf
-      use vrbls4d, only: dust, SALT, SUSO, SOOT, WASO 
+      use vrbls4d, only: dust, SALT, SUSO, SOOT, WASO, SMOKE
       use vrbls3d, only: t, q, uh, vh, pmid, pint, alpint, dpres, zint, zmid, o3,               &
               qqr, qqs, cwm, qqi, qqw, omga, rhomid, q2, cfr, rlwtt, rswtt, tcucn,              &
               tcucns, train, el_pbl, exch_h, vdifftt, vdiffmois, dconvmois, nradtt,             &
@@ -1770,6 +1770,11 @@
       VarName='nwfa'
       call read_netcdf_3d_para(ncid2d,im,jm,ista,ista_2l,iend,iend_2u,jsta,jsta_2l,jend,jend_2u, &
       spval,VarName,qqnwfa(ista_2l,jsta_2l,1),lm)
+
+! smoke
+      VarName='smoke'
+      call read_netcdf_3d_para(ncid2d,im,jm,ista,ista_2l,iend,iend_2u,jsta,jsta_2l,jend,jend_2u, &
+      spval,VarName,smoke(ista_2l,jsta_2l,1,1),lm)
 
       VarName='land' 
       call read_netcdf_2d_para(ncid2d,ista,ista_2l,iend,iend_2u,jsta,jsta_2l,jend,jend_2u, &

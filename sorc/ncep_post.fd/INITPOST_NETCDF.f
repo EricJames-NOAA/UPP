@@ -658,12 +658,12 @@
       end if
       if(me==0)print*,'nhcas= ',nhcas
       if (nhcas == 0 ) then  !non-hydrostatic case
-       nrec=14
+       nrec=15
        allocate (recname(nrec))
        recname=[character(len=20) :: 'ugrd','vgrd','spfh','tmp','o3mr', &
                                      'presnh','dzdt', 'clwmr','dpres',  &
                                      'delz','icmr','rwmr',              &
-                                     'snmr','grle']
+                                     'snmr','grle','smoke']
       else
        nrec=8
        allocate (recname(nrec))
@@ -1016,6 +1016,8 @@
        spval,recname(13),qqs(ista_2l,jsta_2l,1),lm)
        call read_netcdf_3d_para(ncid3d,im,jm,ista,ista_2l,iend,iend_2u,jsta,jsta_2l,jend,jend_2u, &
        spval,recname(14),qqg(ista_2l,jsta_2l,1),lm)
+       call read_netcdf_3d_para(ncid3d,im,jm,ista,ista_2l,iend,iend_2u,jsta,jsta_2l,jend,jend_2u, &
+       spval,recname(14),smoke(ista_2l,jsta_2l,1,1),lm)
 
 ! calculate CWM from FV3 output
        do l=1,lm
@@ -1770,11 +1772,6 @@
       VarName='nwfa'
       call read_netcdf_3d_para(ncid2d,im,jm,ista,ista_2l,iend,iend_2u,jsta,jsta_2l,jend,jend_2u, &
       spval,VarName,qqnwfa(ista_2l,jsta_2l,1),lm)
-
-! smoke
-      VarName='smoke'
-      call read_netcdf_3d_para(ncid2d,im,jm,ista,ista_2l,iend,iend_2u,jsta,jsta_2l,jend,jend_2u, &
-      spval,VarName,smoke(ista_2l,jsta_2l,1,1),lm)
 
       VarName='land' 
       call read_netcdf_2d_para(ncid2d,ista,ista_2l,iend,iend_2u,jsta,jsta_2l,jend,jend_2u, &

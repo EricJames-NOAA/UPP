@@ -89,6 +89,7 @@
              FIELD(I+1,IY) < 9E10) THEN
            FIELD(I,IY) = SMTH4 * FIELD(I,IY)                          &
                        + SMTH5 * (FIELD(I-1,IY) + FIELD(I+1,IY))
+         ENDIF
        ENDDO
 
        DO J = 2,IY-1

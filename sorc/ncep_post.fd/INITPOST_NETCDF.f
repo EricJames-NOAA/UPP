@@ -73,7 +73,7 @@
               jsta_2l, jend_2u, nsoil, lp1, icu_physics, ivegsrc, novegtype, nbin_ss, nbin_bc,  &
               nbin_oc, nbin_su, nbin_no3, nbin_nh4, gocart_on, nasa_on, pt_tbl, hyb_sigp,       &
               filenameFlux, fileNameAER,                                                        &
-              iSF_SURFACE_PHYSICS,rdaod, aqfcmaq_on, modelname,                                 &
+              iSF_SURFACE_PHYSICS,rdaod, aqfcmaq_on, modelname, smflag,                         &
               ista, iend, ista_2l, iend_2u,iend_m
       use gridspec_mod, only: maptype, gridtype, latstart, latlast, lonstart, lonlast, cenlon,  &
               dxval, dyval, truelat2, truelat1, psmapf, cenlat,lonstartv, lonlastv, cenlonv,    &
@@ -4085,6 +4085,13 @@
 
 !       write(6,*)'lonstart,lonlast A calling bcast=',lonstart,lonlast
 !
+
+!tgs Define smoothing flag for isobaric output 
+      IF(MODELNAME == 'RAPR' .OR. MODELNAME == 'FV3R')THEN
+        SMFLAG=.TRUE.
+      ELSE
+        SMFLAG=.FALSE.
+      ENDIF
 
 ! generate look up table for lifted parcel calculations
 

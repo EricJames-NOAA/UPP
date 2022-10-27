@@ -26,7 +26,7 @@
       ,SFCEXC(:,:),GRNFLX(:,:),SOILTB(:,:),F(:,:)                            &
       ,ALBEDO(:,:),CLDFRA(:,:),CPRATE(:,:),CNVCFR(:,:)                       &
       ,PBLH(:,:),PBLHGUST(:,:),HBOTD(:,:),HTOPD(:,:),HBOTS(:,:),HTOPS(:,:)   &
-      ,CLDEFI(:,:),ALBASE(:,:),SI(:,:),LSPA(:,:)                             &
+      ,CLDEFI(:,:),ALBASE(:,:),SI(:,:),SI1(:,:),SI2(:,:),LSPA(:,:)           &
       ,RSWINC(:,:),VIS(:,:),PD(:,:),MXSNAL(:,:),MIXHT(:,:)                   &
       ,SNONC(:,:),EPSR(:,:),RSWTOA(:,:),TEQL(:,:)                            &
 ! Variables saved for input to IFI

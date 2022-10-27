@@ -38,7 +38,7 @@
               aextc55, taod5503d
 
       use vrbls2d, only: f, pd, fis, pblh, ustar, z0, ths, qs, twbs, qwbs, avgcprate,           &
-              cprate, avgprec, prec, lspa, sno, si, cldefi, th10, q10, tshltr, pshltr,          &
+              cprate, avgprec, prec, lspa, sno, si, si1, si2, cldefi, th10, q10, tshltr, pshltr,&
               tshltr, albase, avgalbedo, avgtcdc, czen, czmean, mxsnal, landfrac, radot, sigt4, &
               cfrach, cfracl, cfracm, avgcfrach, qshltr, avgcfracl, avgcfracm, cnvcfr,          &
               islope, cmc, grnflx, vegfrc, acfrcv, ncfrcv, acfrst, ncfrst, ssroff,              &
@@ -2056,9 +2056,19 @@
       end do
 
 ! snow depth in mm using nemsio
-      VarName='snod'
-      call read_netcdf_2d_para(ncid2d,ista,ista_2l,iend,iend_2u,jsta,jsta_2l,jend,jend_2u, &
-      spval,VarName,si)
+      IF(MODELNAME == 'FV3R')THEN
+        VarName='accswe_land'
+        call read_netcdf_2d_para(ncid2d,ista,ista_2l,iend,iend_2u,jsta,jsta_2l,jend,jend_2u, &
+        spval,VarName,si1)
+        VarName='accswe_ice'
+        call read_netcdf_2d_para(ncid2d,ista,ista_2l,iend,iend_2u,jsta,jsta_2l,jend,jend_2u, &
+        spval,VarName,si2)
+        si = 10.0*(si1 + si2)
+      ELSE
+        VarName='snod'
+        call read_netcdf_2d_para(ncid2d,ista,ista_2l,iend,iend_2u,jsta,jsta_2l,jend,jend_2u, &
+        spval,VarName,si)
+      ENDIF
 !$omp parallel do private(i,j)
       do j=jsta,jend
         do i=ista,iend

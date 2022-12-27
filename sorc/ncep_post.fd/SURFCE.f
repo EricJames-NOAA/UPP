@@ -5095,7 +5095,11 @@
            DO J=JSTA,JEND
              DO I=ISTA,IEND
 !-- TOTPRCP is total 1-hour accumulated precipitation in  [m]
-               totprcp = (RAINC_BUCKET(I,J) + RAINNC_BUCKET(I,J))*1.e-3
+               IF(MODELNAME == 'FV3R') THEN
+                 totprcp = (2.*AVGPREC(I,J) - AVGCPRATE(I,J))*3600./DTQ2
+               ELSE
+                 totprcp = (RAINC_BUCKET(I,J) + RAINNC_BUCKET(I,J))*1.e-3
+               ENDIF
                snowratio = 0.0
                if(graup_bucket(i,j)*1.e-3 > totprcp)then
                  print *,'WARNING - Graupel is higher that total precip at point',i,j
@@ -5113,7 +5117,11 @@
 !  ---------------------------------------------------------------
 !      Snow-to-total ratio to be used below
 !  ---------------------------------------------------------------
-               snowratio = snow_bucket(i,j)*1.e-3 / (totprcp-graup_bucket(i,j)*1.e-3)
+               IF(MODELNAME == 'FV3R') THEN
+                 snowratio = snow_bkt(i,j)*1.e-3 / (totprcp-graup_bucket(i,j)*1.e-3)
+               ELSE
+                 snowratio = snow_bucket(i,j)*1.e-3 / (totprcp-graup_bucket(i,j)*1.e-3)
+               ENDIF
 
 !              snowratio = SR(i,j)
 !-- 2-m temperature
@@ -5133,7 +5141,7 @@
                    DOMR(I,J) = 1.
                    DOMS(I,J) = 0.
                  end if
-               end if
+               endif
 
 !  ---------------------------------------------------------------
 !-- rain/freezing rain

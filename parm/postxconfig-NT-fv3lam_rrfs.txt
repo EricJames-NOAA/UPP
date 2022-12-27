@@ -3976,9 +3976,9 @@ surface
 ?
 ?
 ?
-160
-INST_CRAIN_ON_SURFACE
-?
+407
+GSD_INST_CRAIN_ON_SURFACE
+GSD_instant precipitation type on surface
 1
 tmpl4_0
 CRAIN
@@ -4013,9 +4013,9 @@ surface
 ?
 ?
 ?
-551
-CSNOW_ON_SURFACE
-Categorical snow on surface
+559
+GSD_CSNOW_ON_SURFACE
+GSD_Categorical snow on surface
 1
 tmpl4_0
 CSNOW
@@ -4050,9 +4050,9 @@ surface
 ?
 ?
 ?
-552
-CICEP_ON_SURFACE
-Categorical ice pellets on surface
+560
+GSD_CICEP_ON_SURFACE
+GSD_Categorical ice pellets on surface
 1
 tmpl4_0
 CICEP
@@ -4087,9 +4087,9 @@ surface
 ?
 ?
 ?
-553
-CFRZR_ON_SURFACE
-Categorical freezing rain on surface
+561
+GSD_CFRZR_ON_SURFACE
+GSD_Categorical freezing rain on surface
 1
 tmpl4_0
 CFRZR

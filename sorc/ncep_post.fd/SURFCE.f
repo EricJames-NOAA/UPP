@@ -94,7 +94,7 @@
                          acond,maxqshltr,minqshltr,avgpotevp,AVGPREC_CONT,    &
                          AVGCPRATE_CONT,sst,pcp_bucket1,rainnc_bucket1,       &
                          snow_bucket1, rainc_bucket1, graup_bucket1,          &
-                         frzrn_bucket, snow_acm, snow_bkt,                    &
+                         frzrn_bucket, snow_acm,                              &
                          shdmin, shdmax, lai, ch10,cd10,landfrac,paha,pahi,   &
                          tecan,tetran,tedir,twa
       use soil,    only: stc, sllevel, sldpth, smc, sh2o
@@ -3973,7 +3973,7 @@
              ENDDO
            ENDDO
            ID(1:25) = 0
-           ITPREC     = NINT(TPREC)
+           ITPRC     = NINT(TPREC)
 !mp
            if (ITPREC /= 0) then
              IFINCR     = MOD(IFHR,ITPREC)
@@ -4147,7 +4147,7 @@
 !$omp parallel do private(i,j)
             DO J=JSTA,JEND
               DO I=ISTA,IEND
-                GRID1(I,J) = SNOW_BKT(I,J)
+                GRID1(I,J) = SNOW_BUCKET(I,J)
               ENDDO
             ENDDO
             ID(1:25) = 0
@@ -5102,9 +5102,9 @@
                ENDIF
                snowratio = 0.0
                if(graup_bucket(i,j)*1.e-3 > totprcp)then
-                 print *,'WARNING - Graupel is higher that total precip at point',i,j
+                 print *,'WARNING - Graupel is higher that total precip at=point',i,j
                  print *,'totprcp,graup_bucket(i,j),snow_bucket(i,j),rainnc_bucket',&
-                          totprcp,graup_bucket(i,j),snow_bucket(i,j),rainnc_bucket(i,j)
+                            totprcp,graup_bucket(i,j),snow_bucket(i,j),rainnc_bucket(i,j)
                endif
 
 !  ---------------------------------------------------------------
@@ -5117,11 +5117,7 @@
 !  ---------------------------------------------------------------
 !      Snow-to-total ratio to be used below
 !  ---------------------------------------------------------------
-               IF(MODELNAME == 'FV3R') THEN
-                 snowratio = snow_bkt(i,j)*1.e-3 / (totprcp-graup_bucket(i,j)*1.e-3)
-               ELSE
-                 snowratio = snow_bucket(i,j)*1.e-3 / (totprcp-graup_bucket(i,j)*1.e-3)
-               ENDIF
+               snowratio = snow_bucket(i,j)*1.e-3 / (totprcp-graup_bucket(i,j)*1.e-3)
 
 !              snowratio = SR(i,j)
 !-- 2-m temperature

@@ -55,7 +55,7 @@
               uz0, vz0, ptop, htop, pbot, hbot, ptopl, pbotl, ttopl, ptopm, pbotm, ttopm,       &
               ptoph, pboth, pblcfr, ttoph, runoff, tecan, tetran, tedir, twa, maxtshltr,        &
               mintshltr, maxrhshltr, fdnsst, acgraup, graup_bucket, acfrain, frzrn_bucket,      &
-              snow_acm, snow_bkt,                                                               &
+              snow_acm, snow_bucket, qrmax                                                         &
               minrhshltr, dzice, smcwlt, suntime, fieldcapa, htopd, hbotd, htops, hbots,        &
               cuppt, dusmass, ducmass, dusmass25, ducmass25, aswintoa,rel_vort_maxhy1,          &
               maxqshltr, minqshltr, acond, sr, u10h, v10h,refd_max, w_up_max, w_dn_max,         &
@@ -869,6 +869,22 @@
        spval,recname(18),extdust(ista_2l,jsta_2l,1),lm)
        endif
 
+! Compute max QRAIN in the column to be used later in precip type
+! computation
+       do j=jsta,jend
+        do i=ista,iend
+           qrmax(i,j)=0.
+        end do
+       end do
+
+       do l=1,lm
+        do j=jsta,jend
+         do i=ista,iend
+            qrmax(i,j)=max(qrmax(i,j),qqr(i,j,l))
+         end do
+        end do
+       end do
+
 ! calculate CWM from FV3 output
        do l=1,lm
        do j=jsta,jend
@@ -1629,7 +1645,7 @@
 ! snowfall bucket
       VarName='tsnowpb'
       call read_netcdf_2d_para(ncid2d,ista,ista_2l,iend,iend_2u,jsta,jsta_2l,jend,jend_2u, &
-      spval,VarName,SNOW_BKT)
+      spval,VarName,SNOW_BUCKET)
 
 ! accumulated graupel/sleet
       VarName='frozr'

@@ -386,7 +386,6 @@
       deallocate(graup_bucket1)
       deallocate(frzrn_bucket)
       deallocate(snow_acm)
-      deallocate(snow_bkt)
       deallocate(qrmax)
       deallocate(tmax)
       deallocate(snownc)

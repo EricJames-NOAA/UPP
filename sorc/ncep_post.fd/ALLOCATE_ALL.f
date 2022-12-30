@@ -583,7 +583,6 @@
       allocate(graup_bucket1(ista_2l:iend_2u,jsta_2l:jend_2u))
       allocate(frzrn_bucket(ista_2l:iend_2u,jsta_2l:jend_2u))
       allocate(snow_acm(ista_2l:iend_2u,jsta_2l:jend_2u))
-      allocate(snow_bkt(ista_2l:iend_2u,jsta_2l:jend_2u))
       allocate(qrmax(ista_2l:iend_2u,jsta_2l:jend_2u))
       allocate(tmax(ista_2l:iend_2u,jsta_2l:jend_2u))
       allocate(snownc(ista_2l:iend_2u,jsta_2l:jend_2u))

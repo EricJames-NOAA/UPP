@@ -153,7 +153,7 @@
 !      real,   dimension(im,jm,nalg) :: sleet, rain, freezr, snow
 
 !GSD
-      REAL totprcp, snowratio,t2,rainl
+      REAL totprcp, snowratio,t2,rainl,totmax,totmax2
 
 !
       integer I,J,IWX,ITMAXMIN,IFINCR,ISVALUE,II,JJ,                    &
@@ -5103,6 +5103,9 @@
              ENDDO
            ENDDO
 
+           totmax = 0.0
+           totmax2 = 0.0
+
            DO J=JSTA,JEND
              DO I=ISTA,IEND
 !-- TOTPRCP is total 1-hour accumulated precipitation in  [m]
@@ -5110,29 +5113,33 @@
                  totprcp = (RAINC_BUCKET(I,J) + RAINNC_BUCKET(I,J))*1.e-3
                ELSE
                  totprcp = AVGPREC_CONT(I,J)*FLOAT(IFHR)*3600./DTQ2
+! For RRFS, rainnc_bucket is 0.
                  rainnc_bucket(i,j) = (AVGPREC_CONT(i,j) - AVGCPRATE_CONT(i,j))* &
                    FLOAT(IFHR)*3600./DTQ2
                  snow_bucket(i,j) = SNOW_BKT(i,j)
                  
                ENDIF
                snowratio = 0.0
-               if(graup_bucket(i,j)*1.e-3 > totprcp)then
-                 print *,'WARNING - Graupel is higher that total precip at point',i,j
-                 print *,'totprcp,graup_bucket(i,j),snow_bucket(i,j),rainnc_bucket',&
-                          totprcp,graup_bucket(i,j),snow_bucket(i,j),rainnc_bucket(i,j)
-               endif
+! For RRFS so far, graup_bucket is spval; comment out these checks:
+!               if(graup_bucket(i,j)*1.e-3 > totprcp)then
+!                 print *,'WARNING - Graupel is higher that total precip at point',i,j
+!                 print *,'totprcp,graup_bucket(i,j),snow_bucket(i,j),rainnc_bucket',&
+!                          totprcp,graup_bucket(i,j),snow_bucket(i,j),rainnc_bucket(i,j)
+!               endif
 
 !  ---------------------------------------------------------------
 !  Minimum 1h precipitation to even consider p-type specification
 !      (0.0001 mm in 1h, very light precipitation)
 !  ---------------------------------------------------------------
-               if (totprcp-graup_bucket(i,j)*1.e-3 > 0.0000001)       &
+!               if (totprcp-graup_bucket(i,j)*1.e-3 > 0.0000001)       &
+               if (totprcp > 0.0000001)       &
 !          snowratio = snow_bucket(i,j)*1.e-3/totprcp            ! orig
 !14aug15 - change from Stan and Trevor
 !  ---------------------------------------------------------------
 !      Snow-to-total ratio to be used below
 !  ---------------------------------------------------------------
-               snowratio = snow_bucket(i,j)*1.e-3 / (totprcp-graup_bucket(i,j)*1.e-3)
+!               snowratio = snow_bucket(i,j)*1.e-3 / (totprcp-graup_bucket(i,j)*1.e-3)
+               snowratio = snow_bucket(i,j)*1.e-3 / (totprcp)
 
 !              snowratio = SR(i,j)
 !-- 2-m temperature
@@ -5226,7 +5233,8 @@
 
              ENDDO
            ENDDO
-
+        write (6,*)'totmax:',totmax
+        write (6,*)'totmax2:',totmax2
 
         write (6,*)' Snow/rain ratio'
         write (6,*)' max/min 1h-SNOWFALL in [cm]',   &

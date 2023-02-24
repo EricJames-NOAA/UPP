@@ -44,7 +44,7 @@
               dusv,ssem,sssd,ssdp,sswt,sssv,bcem,bcsd,bcdp,bcwt,bcsv,ocem,ocsd,ocdp,ocwt,ocsv, &
               wh, qqg, ref_10cm, qqnifa, qqnwfa, avgpmtf, avgozcon, aextc55, taod5503d
 
-      use vrbls2d, only: f, pd, fis, pblh, ustar, z0, ths, qs, twbs, qwbs, avgcprate,           &
+      use vrbls2d, only: qrmax, f, pd, fis, pblh, ustar, z0, ths, qs, twbs, qwbs, avgcprate,    &
               cprate, avgprec, prec, lspa, sno, sndepac, si, cldefi, th10, q10, tshltr, pshltr, &
               tshltr, albase, avgalbedo, avgtcdc, czen, czmean, mxsnal, landfrac, radot, sigt4, &
               cfrach, cfracl, cfracm, avgcfrach, qshltr, avgcfracl, avgcfracm, cnvcfr,          &
@@ -870,11 +870,20 @@
        spval,recname(18),extdust(ista_2l,jsta_2l,1),lm)
        endif
 
+! Compute max QRAIN in the column to be used later in precip type
+! computation
+       do j=jsta,jend
+       do i=ista,iend
+         qrmax(i,j)=0.
+       end do
+       end do
+
 ! calculate CWM from FV3 output
        do l=1,lm
        do j=jsta,jend
          do i=ista,iend
             cwm(i,j,l)=qqg(i,j,l)+qqs(i,j,l)+qqr(i,j,l)+qqi(i,j,l)+qqw(i,j,l)
+            qrmax(i,j)=max(qrmax(i,j),qqr(i,j,l))
          enddo
        enddo
        if(debugprint)print*,'sample l,t,q,u,v,w= ',isa,jsa,l &

@@ -5106,7 +5106,15 @@
            DO J=JSTA,JEND
              DO I=ISTA,IEND
 !-- TOTPRCP is total 1-hour accumulated precipitation in  [m]
-               totprcp = (RAINC_BUCKET(I,J) + RAINNC_BUCKET(I,J))*1.e-3
+               IF(MODELNAME == 'RAPR') THEN
+                 totprcp = (RAINC_BUCKET(I,J) + RAINNC_BUCKET(I,J))*1.e-3
+               ELSE
+                 totprcp = AVGPREC_CONT(I,J)*FLOAT(IFHR)*3600./DTQ2
+                 rainnc_bucket(i,j) = (AVGPREC_CONT(i,j) - AVGCPRATE_CONT(i,j))* &
+                   FLOAT(IFHR)*3600./DTQ2
+                 snow_bucket(i,j) = SNOW_BKT(i,j)
+                 
+               ENDIF
                snowratio = 0.0
                if(graup_bucket(i,j)*1.e-3 > totprcp)then
                  print *,'WARNING - Graupel is higher that total precip at point',i,j

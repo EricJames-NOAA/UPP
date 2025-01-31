@@ -98,6 +98,8 @@ fi
 PATHTR=${PATHTR:-$( cd ${MYDIR}/.. && pwd )}
 source ${PATHTR}/tests/detect_machine.sh
 
+source $MODULESHOME/init/bash
+
 #Load required modulefiles
 if [[ $MACHINE_ID != "unknown" ]]; then
    if [ $MACHINE_ID == "wcoss2"  -o $MACHINE_ID == "wcoss2_a" ]; then

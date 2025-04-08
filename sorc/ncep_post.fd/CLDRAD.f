@@ -328,8 +328,6 @@
       IF ((IGET(032) > 0))THEN
 ! dong add missing value for cape 
         GRID1 = spval
-        print *, 'EJ CAPE: ', LVLS(1,IGET(032))
-        print *, 'EGRID1: ', maxval(EGRID1),minval(EGRID1)
         IF ( (LVLS(1,IGET(032))>0) )THEN
           ITYPE  = 1
           DPBND  = 10.E2
@@ -337,7 +335,6 @@
           idummy = 0
           CALL CALCAPE(ITYPE,DPBND,dummy,dummy,dummy,idummy,EGRID1,EGRID2, &
                        EGRID3,dummy,dummy)
-          print *, 'Second EGRID1: ', maxval(EGRID1),minval(EGRID1)
 !$omp parallel do private(i,j)
           DO J=JSTA,JEND
             DO I=ISTA,IEND

@@ -670,6 +670,7 @@
 !-------FOR ITYPE=1--FIND MAXIMUM THETA E LAYER IN LOWEST DPBND ABOVE GROUND-------
 !-------FOR ITYPE=2--FIND THETA E LAYER OF GIVEN T1D, Q1D, P1D---------------------
 !--------------TRIAL MAXIMUM BUOYANCY LEVEL VARIABLES-------------------
+      print *, 'PMID: ', maxval(PMID),minval(PMID)
 
       DO KB=1,LM
 !hc     IF (ITYPE==2.AND.KB>1) cycle
@@ -682,14 +683,17 @@
             DO I=ISTA,IEND
               PSFCK  = PMID(I,J,NINT(LMH(I,J)))
               PKL    = PMID(I,J,KB)
-              IF(PSFCK<spval.and.PKL<spval)THEN
+              IF(PSFCK<99999.and.PKL<99999.and.PSFCK>0.and.PKL>0)THEN
+!              IF(PSFCK<spval.and.PKL<spval)THEN
 
 !hc           IF (ITYPE==1.AND.(PKL<PSFCK-DPBND.OR.PKL>PSFCK)) cycle
               IF (ITYPE ==2 .OR.                                                &
                  (ITYPE == 1 .AND. (PKL >= PSFCK-DPBND .AND. PKL <= PSFCK)))THEN
                 IF (ITYPE == 1) THEN
                   TBTK   = T(I,J,KB)
+                  print *, 'TBTK: ', TBTK
                   QBTK   = max(0.0, Q(I,J,KB))
+                  print *, 'QBTK: ', QBTK
                   APEBTK = (H10E5/PKL)**CAPA
                 ELSE
                   PKL    = P1D(I,J)
@@ -708,6 +712,7 @@
                 TTHBTK  =  TBTK*APEBTK
                 TTHK    = (TTHBTK-THL)*RDTH
                 QQ(I,J) = TTHK - AINT(TTHK)
+                print *, 'QQ: ', QQ(I,J)
                 ITTBK   = INT(TTHK) + 1
 !--------------KEEPING INDICES WITHIN THE TABLE-------------------------
                 IF(ITTBK < 1)   THEN
@@ -728,6 +733,7 @@
                 SQK     = (SQS10K-SQS00K)*QQ(I,J) + SQS00K
                 TQK     = (QBTK-BQK)/SQK*RDQ
                 PP(I,J) = TQK-AINT(TQK)
+                print *, 'PP: ', PP(I,J)
                 IQ      = INT(TQK)+1
 !--------------KEEPING INDICES WITHIN THE TABLE-------------------------
                 IF(IQ < 1)    THEN
@@ -757,6 +763,7 @@
                 TTHESK = TTHBTK * EXP(ELOCP*QBTK*APESPK/TTHBTK)
 !--------------CHECK FOR MAXIMUM THETA E--------------------------------
                 IF(TTHESK > THESP(I,J)) THEN
+                  print *, 'TTHESK>THESP'
                   PSP  (I,J)  = TPSPK
                   THESP(I,J)  = TTHESK
                   PARCEL(I,J) = KB
@@ -775,6 +782,10 @@
             PPARC(I,J) = PMID(I,J,PARCEL(I,J))
           ENDDO
         ENDDO
+        print *, 'QQ: ', maxval(QQ),minval(QQ)
+        print *, 'PP: ', maxval(PP),minval(PP)
+        print *, 'THESP: ', maxval(THESP),minval(THESP)
+        print *, 'PSP: ', maxval(PSP),minval(PSP)
 !
 !-----CHOOSE LAYER DIRECTLY BELOW PSP AS LCL AND------------------------
 !-----ENSURE THAT THE LCL IS ABOVE GROUND.------------------------------
@@ -868,6 +879,10 @@
           LEND = MAX(LCL(I,J),LEND)
         ENDDO
       ENDDO
+      print *, 'LBEG: ', LBEG
+      print *, 'LEND: ', LEND
+      print *, 'IEQL: ',maxval(IEQL),minval(IEQL)
+      print *, 'LCL: ',maxval(LCL),minval(LCL)
 !
 !$omp parallel do private(i,j)
       DO J=JSTA,JEND
@@ -890,6 +905,11 @@
           ENDDO
         ENDDO
 !
+        print *, 'PMID: ', maxval(PMID),minval(PMID)
+        print *, 'ZINT: ', maxval(ZINT),minval(ZINT)
+        print *, 'T: ', maxval(T),minval(T)
+        print *, 'Q: ', maxval(Q),minval(Q)
+
 !$omp  parallel do private(i,j,gdzkl,presk,thetaa,thetap,esatp,qsatp,tvp,tv)
         DO J=JSTA,JEND
           DO I=ISTA,IEND
@@ -908,6 +928,7 @@
                 CINS(I,J) = CINS(I,J) + (LOG(THETAP)-LOG(THETAA))*GDZKL
               ELSEIF(THETAP > THETAA) THEN
                 CAPE(I,J) = CAPE(I,J) + (LOG(THETAP)-LOG(THETAA))*GDZKL
+                print *, 'THETAP>THETAA'
                 IF (THUNDER(I,J) .AND. T(I,J,L)  < 273.15                 &
                                  .AND. T(I,J,L)  > 253.15) THEN
                  CAPE20(I,J) = CAPE20(I,J) + (LOG(THETAP)-LOG(THETAA))*GDZKL
@@ -917,6 +938,7 @@
           ENDDO
         ENDDO
       ENDDO
+      print *, 'CAPE: ', maxval(CAPE),minval(CAPE)
 !    
 !     ENFORCE LOWER LIMIT OF 0.0 ON CAPE AND UPPER
 !     LIMIT OF 0.0 ON CINS.

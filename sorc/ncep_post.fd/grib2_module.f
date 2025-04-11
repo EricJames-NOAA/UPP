@@ -606,34 +606,30 @@
 ! Find out if the Post is being run for the REFS model
 ! Check if gen_proc is refs
     if(trim(pset%gen_proc)=='refs') then
-!      call getenv('e1',cdum)
-!      read(cdum,'(I4)',iostat=refs_status)refs1
-!      e1_type=refs1
-!
-!      if(refs_status /= 0) print *, &
-!      "REFS Run: Could not read e1 envir. var, User needs to set in script"
-!
-!      call getenv('e2',cdum)
-!      read(cdum,'(I4)',iostat=refs_status)refs2
-!      perturb_num=refs2
-!
-!      if(refs_status /= 0) print *, &
-!      "REFS Run: Could not read e2 envir. var, User needs to set in script"
-!
-!      !set default number of ens forecasts to 5 for REFS
-!      !num_ens_fcst=5
-!      call getenv('e3',cdum)
-!      read(cdum,'(I4)',iostat=refs_status)refs3
-!      num_ens_fcst=refs3
-!
-!      if(refs_status /= 0) print *, &
-!      "REFS Run: Could not read e3 envir. var, User needs to set in script"
+      call getenv('e1',cdum)
+      read(cdum,'(I4)',iostat=refs_status)refs1
+      e1_type=refs1
 
-      e1_type = 2
-      perturb_num = 4
-      num_ens_fcst = 5
+      if(refs_status /= 0) print *, &
+      "REFS Run: Could not read e1 envir. var, User needs to set in script"
 
-!      print*,'REFS env var ',e1_type,perturb_num,num_ens_fcst
+      call getenv('e2',cdum)
+      read(cdum,'(I4)',iostat=refs_status)refs2
+      perturb_num=refs2
+
+      if(refs_status /= 0) print *, &
+      "REFS Run: Could not read e2 envir. var, User needs to set in script"
+
+      !set default number of ens forecasts to 5 for REFS
+      !num_ens_fcst=5
+      call getenv('e3',cdum)
+      read(cdum,'(I4)',iostat=refs_status)refs3
+      num_ens_fcst=refs3
+
+      if(refs_status /= 0) print *, &
+      "REFS Run: Could not read e3 envir. var, User needs to set in script"
+
+      print*,'REFS env var ',e1_type,perturb_num,num_ens_fcst
 
       ! Set pdstmpl to tmpl4_1 or tmpl4_11
 !      print *, "Processing for REFS and default setting is tmpl4_1 and tmpl4_11"

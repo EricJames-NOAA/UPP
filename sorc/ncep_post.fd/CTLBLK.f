@@ -36,7 +36,7 @@
   end type
 !
   integer, parameter :: komax=70          !< At-rest earth pressure coefficient maximum.
-  integer, parameter :: LSMDEF=46         !< Default number of pressure levels.
+  integer, parameter :: LSMDEF=55         !< Default number of pressure levels.
   integer,PARAMETER  :: NFD=20            !< Default number of flight level heights in geopotential meters. 
   integer,PARAMETER  :: NBND=6            !< Default number of ETA boundary layers.
   REAL,  PARAMETER   :: QMIN = 1.E-15     !< A minimum specific humidity value.
@@ -223,7 +223,7 @@
 !
 !> SPLDEF   !< The fixed pressure levels available for output (Pa).
   real :: SPLDEF(LSMDEF) =                                             &
-      (/200.,500.,700.,1000.,2000.,3000.                               &
+      (/2.,3.,4.,7.,10.,20.,40.,70.,100.,200.,500.,700.,1000.,2000.,3000. &
       ,5000.,7000.,7500.,10000.,12500.,15000.,17500.,20000.,22500.     &
       ,25000.,27500.,30000.,32500.,35000.,37500.,40000.,42500.,45000.  &
       ,47500.,50000.,52500.,55000.,57500.,60000.,62500.,65000.         &

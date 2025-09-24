@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <postxml>
     <paramset>
-    <datset>WRFTWO</datset>
+    <datset>POSTTWO</datset>
     <grid_num>4</grid_num>
     <sub_center>ncep_emc</sub_center>
     <version_no>v2003</version_no>
@@ -66,11 +66,6 @@
        <param>
           <shortname>LAI_ON_SURFACE</shortname>
           <scale>-3.0</scale>
-       </param>
-
-       <param>
-          <shortname>SOTYP_ON_SURFACE</shortname>
-          <scale>3.0</scale>
        </param>
 
        <param>
@@ -146,6 +141,11 @@
        <param>
            <shortname>VGTYP_ON_SURFACE</shortname>
            <table_info>NCEP</table_info>
+           <scale>3.0</scale>
+       </param>
+
+       <param>
+           <shortname>SOTYP_ON_SURFACE</shortname>
            <scale>3.0</scale>
        </param>
 
@@ -314,6 +314,13 @@
            <shortname>BUCKET_GRAUPEL_ON_SURFACE</shortname>
            <scale>6.0</scale>
        </param>
+
+<!--
+       <param>
+           <shortname>BUCKET_HAIL_ON_SURFACE</shortname>
+	   <scale>3.0</scale>
+       </param>
+-->
 
        <param>
            <shortname>GSD_CSNOW_ON_SURFACE</shortname>
@@ -857,7 +864,7 @@
     </paramset>
 
     <paramset>
-    <datset>WRFPRS</datset>
+    <datset>POSTPRS</datset>
     <grid_num>4</grid_num>
     <sub_center>ncep_emc</sub_center>
     <version_no>v2003</version_no>
@@ -1022,7 +1029,7 @@
     </paramset>
 
     <paramset>
-    <datset>WRFNAT</datset>
+    <datset>POSTNAT</datset>
     <grid_num>4</grid_num>
     <sub_center>ncep_emc</sub_center>
     <version_no>v2003</version_no>

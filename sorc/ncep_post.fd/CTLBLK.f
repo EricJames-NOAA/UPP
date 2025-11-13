@@ -20,6 +20,7 @@
 !>  2023-11-24 | Eric James | Add method_blsn logical option
 !>  2025-07-25 | Jaymes Kenyon | Add "earth_radius" namelist option
 !>  2025-11-03 | Nick Szapiro | Initialize earth_radius=0. namelist option
+!>  2025-11-13 | Eric James | Increase number of pressure levels to enable additional isobaric output in global MPAS
 !-----------------------------------------------------------------------
 !> @defgroup CTLBLK CTLBLK
 !> Sets default parameters that are used throughout the UPP code

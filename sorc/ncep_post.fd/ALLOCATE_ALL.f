@@ -29,6 +29,7 @@
 !! -  25-01-13  Jaymes Kenyon - Add graupel number concentration (QQNG)
 !! -  25-05-05  Jaymes Kenyon - Add HAIL_BUCKET
 !! -  25-07-15  Jeff Duda - Add max_compref, max_prate_1min, max_prate_5min, and max_prate_10min
+!! -  26-01-02  Eric James - Correcting range for allocation of u
 
 !!   OUTPUT FILES:
 !!   - STDOUT  - RUN TIME STANDARD OUT.

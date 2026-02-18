@@ -2578,8 +2578,8 @@ endif  ! 1==2
         end do
        end do
 ! pos north
-      print*,'GDLAT at ',ii,jj,' = ',GDLAT(ii,jj)
-      print*,'read past GDLAT'
+!      print*,'GDLAT at ',ii,jj,' = ',GDLAT(ii,jj)
+!      print*,'read past GDLAT'
       VarName='XLONG'
       call getVariable(fileName,DateStr,DataHandle,VarName,DUMMY,         &
         IM,1,JM,1,IM,JS,JE,1)
@@ -2592,8 +2592,8 @@ endif  ! 1==2
 !     3      ,GDLAT(i,j),SM(i,j),FIS(i,j)/G,PINT(I,j,lm+1)
         end do
        end do
-       print*,'GDLON at ',ii,jj,' = ',GDLON(ii,jj)
-       print*,'read past GDLON' 
+!       print*,'GDLON at ',ii,jj,' = ',GDLON(ii,jj)
+!       print*,'read past GDLON' 
 ! pos east
        call collect_loc(gdlat,dummy)
        if(me==0)then

@@ -3763,7 +3763,11 @@ snow_check:   IF (QQS(I,J,L)>=QCLDmin) THEN
          DO J=JSTA,JEND
          DO I=ISTA,IEND
           IF(RSWIN(I,J)<SPVAL) THEN
+           IF(CZMEAN(I,J)>1.E-6) THEN
              FACTRS=CZEN(I,J)/CZMEAN(I,J)
+           ELSE
+             FACTRS=0.0
+           ENDIF
            IF(RSWIN(I,J)<SPVAL) GRID1(I,J)=RSWIN(I,J)*FACTRS
           ENDIF
          ENDDO
@@ -3813,7 +3817,11 @@ snow_check:   IF (QQS(I,J,L)>=QCLDmin) THEN
         DO J=JSTA,JEND
           DO I=ISTA,IEND
             IF(RSWOUT(I,J)<SPVAL) THEN
+             IF(CZMEAN(I,J)>1.E-6) THEN
                FACTRS=CZEN(I,J)/CZMEAN(I,J)
+             ELSE
+               FACTRS=0.0
+             ENDIF
              IF(RSWOUT(I,J)<SPVAL) GRID1(I,J)=RSWOUT(I,J)*FACTRS
             ENDIF
            ENDDO
@@ -3932,7 +3940,11 @@ snow_check:   IF (QQS(I,J,L)>=QCLDmin) THEN
          DO J=JSTA,JEND
            DO I=ISTA,IEND
             IF(RSWINC(I,J)<SPVAL) THEN
+             IF(CZMEAN(I,J)>1.E-6) THEN
                FACTRS=CZEN(I,J)/CZMEAN(I,J)
+             ELSE
+               FACTRS=0.0
+             ENDIF
              IF(RSWINC(I,J)<SPVAL) GRID1(I,J) = RSWINC(I,J)*FACTRS
             ENDIF
            ENDDO

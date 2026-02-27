@@ -117,7 +117,7 @@
                          ALWINC, ALWTOAC, SWDDNI, SWDDIF, SWDNBC, SWDDNIC,    &
                          SWDDIFC, SWUPBC, LWDNBC, LWUPBC, SWUPT,              &
                          TAOD5502D, AERSSA2D, AERASY2D, MEAN_FRP, HWP,        &
-                         LWP, IWP, AVGCPRATE,                                 &
+                         LWP, IWP, AVGCPRATE, EMDUST,                         &
                          DUSTCB,SSCB,BCCB,OCCB,SULFCB,DUSTPM,SSPM,aod550,     &
                          du_aod550,ss_aod550,su_aod550,oc_aod550,bc_aod550,   &
                          PWAT,DUSTPM10,MAOD,NO3CB,NH4CB,aqm_aod550
@@ -3881,12 +3881,26 @@ snow_check:   IF (QQS(I,J,L)>=QCLDmin) THEN
       IF (IGET(740)>0) THEN
         DO J=JSTA,JEND
           DO I=ISTA,IEND
-            GRID1(I,J) = MEAN_FRP(I,J)
+            GRID1(I,J) = 1000000.0*MEAN_FRP(I,J)
           ENDDO
         ENDDO
         if(grib=='grib2') then
           cfld=cfld+1
           fld_info(cfld)%ifld=IAVBLFLD(IGET(740))
+          datapd(1:iend-ista+1,1:jend-jsta+1,cfld)=GRID1(ista:iend,jsta:jend)
+        endif
+      ENDIF
+
+! Dust emissions
+      IF (IGET(893)>0) THEN
+        DO J=JSTA,JEND
+          DO I=ISTA,IEND
+            GRID1(I,J) = EMDUST(I,J)
+          ENDDO
+        ENDDO
+        if(grib=='grib2') then
+          cfld=cfld+1
+          fld_info(cfld)%ifld=IAVBLFLD(IGET(893))
           datapd(1:iend-ista+1,1:jend-jsta+1,cfld)=GRID1(ista:iend,jsta:jend)
         endif
       ENDIF

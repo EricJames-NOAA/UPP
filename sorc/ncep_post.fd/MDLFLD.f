@@ -3471,6 +3471,51 @@ refl_adj:           IF(REF_10CM(I,J,L)<=DBZmin) THEN
        endif
       ENDIF
 
+! Aerosol layer top and bottom
+
+      IF (IGET(891) > 0 .and. IGET(892) > 0) THEN
+        DO J=JSTA,JEND
+          DO I=ista,iend
+            GRID1(I,J) = -999.
+            GRID2(I,J) = -999.
+            DO L=1,NINT(LMH(I,J))
+              IF (SMOKE(I,J,L,1) + FV3DUST(I,J,L,1) + COARSEPM(I,J,L,1)>=1.0) THEN
+                 GRID1(I,J)=ZMID(I,J,L)
+                 EXIT
+              ENDIF
+            ENDDO
+            DO L=1,NINT(LMH(I,J))+1
+              IF (SMOKE(I,J,NINT(LMH(I,J))-L,1) + FV3DUST(I,J,NINT(LMH(I,J))-L,1) + COARSEPM(I,J,NINT(LMH(I,J))-L,1)>=1.0) THEN
+                 GRID2(I,J)=ZMID(I,J,NINT(LMH(I,J))-L)
+                 EXIT
+              ENDIF
+            ENDDO
+          ENDDO
+        ENDDO
+        if(grib=="grib2") then
+         cfld=cfld+1
+         fld_info(cfld)%ifld=IAVBLFLD(IGET(891))
+!$omp parallel do private(i,j,ii,jj)
+         do j=1,jend-jsta+1
+           jj = jsta+j-1
+           do i=1,iend-ista+1
+             ii = ista+i-1
+             datapd(i,j,cfld) = GRID1(ii,jj)
+           enddo
+         enddo
+         cfld=cfld+1
+         fld_info(cfld)%ifld=IAVBLFLD(IGET(892))
+!$omp parallel do private(i,j,ii,jj)
+         do j=1,jend-jsta+1
+           jj = jsta+j-1
+           do i=1,iend-ista+1
+             ii = ista+i-1
+             datapd(i,j,cfld) = GRID2(ii,jj)
+           enddo
+         enddo
+        endif
+      ENDIF
+
 ! -- Total column-integrated precip (rain, snow, graupel, and hail; kg m-2)
 ! J. Kenyon / 10 Jun 2025: Parm 769 was previously associated with the shortname "GSD_VIL_ON_ENTIRE_ATMOS".
 ! It is a 'VIL-like' quantity, obtained from integrating the mixing ratios of precip hydrometeors (i.e., 

@@ -98,7 +98,8 @@
       SUBROUTINE CLDRAD
 
 !
-      use vrbls4d, only: DUST,SUSO, SALT, SOOT, WASO,NO3,NH4,EBB
+      use vrbls4d, only: DUST,SUSO, SALT, SOOT, WASO,NO3,NH4,EBB,SMOKE,&
+                         FV3DUST,COARSEPM
       use vrbls3d, only: QQW, QQR, T, ZINT, CFR, QQI, QQS, Q, EXT, ZMID,PMID,&
                          PINT, DUEM, DUSD, DUDP, DUWT, DUSV, SSEM, SSSD,SSDP,&
                          SSWT, SSSV, BCEM, BCSD, BCDP, BCWT, BCSV, OCEM,OCSD,&
@@ -506,7 +507,7 @@
         endif
       ENDIF
 !
-!     TOTAL COLUMN DUST
+!     TOTAL COLUMN FINE DUST
 !
       IF (IGET(741) > 0) THEN
          CALL CALPW(GRID1(ista:iend,jsta:iend),22)
@@ -533,6 +534,43 @@
         if(grib == "grib2" )then
           cfld = cfld + 1
           fld_info(cfld)%ifld = IAVBLFLD(IGET(1011))
+!$omp parallel do private(i,j,ii,jj)
+          do j=1,jend-jsta+1
+            jj = jsta+j-1
+            do i=1,iend-ista+1
+              ii=ista+i-1
+              datapd(i,j,cfld) = GRID1(ii,jj)
+            enddo
+          enddo
+        endif
+      ENDIF
+!
+!     TOTAL COLUMN DUST
+!
+      IF (IGET(895) > 0) THEN
+         CALL CALPW(GRID1(ista:iend,jsta:iend),24)
+         CALL BOUND(GRID1,D00,H99999)
+        if(grib == "grib2" )then
+          cfld = cfld + 1
+          fld_info(cfld)%ifld = IAVBLFLD(IGET(895))
+!$omp parallel do private(i,j,ii,jj)
+          do j=1,jend-jsta+1
+            jj = jsta+j-1
+            do i=1,iend-ista+1
+              ii=ista+i-1
+              datapd(i,j,cfld) = GRID1(ii,jj)
+            enddo
+          enddo
+        endif
+      ENDIF
+!     
+!     MASS-WEIGHTED AEROSOL CENTROID
+!
+      IF (IGET(893) > 0) THEN
+         CALL CALPW(GRID1(ista:iend,jsta:iend),25)
+        if(grib == "grib2" )then
+          cfld = cfld + 1
+          fld_info(cfld)%ifld = IAVBLFLD(IGET(893))
 !$omp parallel do private(i,j,ii,jj)
           do j=1,jend-jsta+1
             jj = jsta+j-1
@@ -3892,7 +3930,7 @@ snow_check:   IF (QQS(I,J,L)>=QCLDmin) THEN
       ENDIF
 
 ! Dust emissions
-      IF (IGET(893)>0) THEN
+      IF (IGET(894)>0) THEN
         DO J=JSTA,JEND
           DO I=ISTA,IEND
             GRID1(I,J) = EMDUST(I,J)
@@ -3900,7 +3938,7 @@ snow_check:   IF (QQS(I,J,L)>=QCLDmin) THEN
         ENDDO
         if(grib=='grib2') then
           cfld=cfld+1
-          fld_info(cfld)%ifld=IAVBLFLD(IGET(893))
+          fld_info(cfld)%ifld=IAVBLFLD(IGET(894))
           datapd(1:iend-ista+1,1:jend-jsta+1,cfld)=GRID1(ista:iend,jsta:jend)
         endif
       ENDIF

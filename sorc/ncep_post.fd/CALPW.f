@@ -53,7 +53,7 @@
 !     
       use vrbls3d,    only: q, qqw, qqi, qqr, qqs, cwm, qqg, t, rswtt,    &
                             train, tcucn, mcvg, pmid, o3, ext, pint, rlwtt, &
-                            taod5503d,sca, asy
+                            taod5503d,sca, asy, zmid
       use vrbls4d,    only: smoke, fv3dust, coarsepm
       use masks,      only: htm
       use params_mod, only: tfrz, gi
@@ -78,6 +78,7 @@
       INTEGER LLMH,I,J,L
       REAL ALPM,DZ,PM,PWSUM,RHOAIR,DP,ES
       REAL QDUM(ista:iend,jsta:jend), PWS(ista:iend,jsta:jend),QS(ista:iend,jsta:jend)
+      REAL COLMD(ista:iend,jsta:jend), COLMD2(ista:iend,jsta:jend)
 !
 !***************************************************************
 !     START CALPW HERE.
@@ -89,8 +90,30 @@
         DO I=ISTA,IEND
           PW(i,j)  = 0.
           PWS(i,j) = 0.
+          COLMD(i,j) = 0.
+          COLMD2(i,j) = 0.
         ENDDO
       ENDDO
+!
+! E. James - 6 Mar 2026
+! Pre-calculate vertically integrated aerosol for mass-weighted centroid
+!
+      IF (IDECID == 25) THEN
+      DO L = 1,LM
+        DO J=JSTA,JEND
+          DO I=ISTA,IEND
+            Qdum(I,J) = (SMOKE(I,J,L,1) + FV3DUST(I,J,L,1) + COARSEPM(I,J,L,1))/(1E9)
+            if(PINT(I,J,L+1) <spval .and. Qdum(I,J) < spval) then
+              DP      = PINT(I,J,L+1) - PINT(I,J,L)
+              COLMD(I,J) = COLMD(I,J) + Qdum(I,J)*MAX(DP,0.)*GI*HTM(I,J,L)
+            else
+              COLMD(I,J) = spval
+            endif
+          ENDDO
+        ENDDO
+      ENDDO
+      ENDIF
+
 !     
 !     OUTER LOOP OVER VERTICAL DIMENSION.
 !     INNER LOOP OVER HORIZONTAL GRID.
@@ -297,7 +320,28 @@
               Qdum(I,J) = COARSEPM(I,J,L,1)/(1E9)
             ENDDO
           END DO
+
+! E. James - 06 Mar 2026
+! TOTAL DUST (from RRFS)
+        ELSE IF (IDECID == 24) THEN
+!$omp  parallel do private(i,j)
+          DO J=JSTA,JEND
+            DO I=ISTA,IEND
+              Qdum(I,J) = (FV3DUST(I,J,L,1) + COARSEPM(I,J,L,1))/(1E9)
+            ENDDO
+          ENDDO
+
+! E. James - 06 Mar 2026
+! MASS WEIGHTED AEROSOL CENTROID
+        ELSE IF (IDECID == 25) THEN
+!$omp  parallel do private(i,j)
+          DO J=JSTA,JEND
+            DO I=ISTA,IEND
+              Qdum(I,J) = (SMOKE(I,J,L,1) + FV3DUST(I,J,L,1) + COARSEPM(I,J,L,1))/(1E9)
+            ENDDO
+          ENDDO
         ENDIF
+
 !
 !$omp  parallel do private(i,j,dp)
         DO J=JSTA,JEND
@@ -306,6 +350,12 @@
              DP      = PINT(I,J,L+1) - PINT(I,J,L)
             IF (IDECID == 19) THEN
              PW(I,J) = PW(I,J) + Qdum(I,J)
+            ELSE IF (IDECID == 25) THEN
+             IF (COLMD2(I,J) < 0.5*COLMD(I,J) .and. COLMD2(I,J) + &
+               Qdum(I,J)*MAX(DP,0.)*GI*HTM(I,J,L) > 0.5*COLMD(I,J)) THEN
+               PW(I,J) = ZMID(I,J,L)
+             ENDIF
+               COLMD2(I,J) = COLMD2(I,J) + Qdum(I,J)*MAX(DP,0.)*GI*HTM(I,J,L)
 	    ELSE
 	     PW(I,J) = PW(I,J) + Qdum(I,J)*MAX(DP,0.)*GI*HTM(I,J,L)
             ENDIF

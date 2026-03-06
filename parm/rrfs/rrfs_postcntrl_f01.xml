@@ -2372,6 +2372,11 @@
        </param>
 
        <param>
+       <shortname>TOTAL_DUST_ON_ENTIRE_ATMOS_SINGLE_LYR</shortname>
+       <scale>5.0</scale>
+       </param>
+
+       <param>
        <shortname>COARSEPM_ON_SPEC_HGT_LVL_ABOVE_GRND_8m</shortname>
        <scale>6.0</scale>
        </param>
@@ -2403,6 +2408,11 @@
 
        <param>
        <shortname>HGTMD_AEROSOL_BOT</shortname>
+       <scale>6.0</scale>
+       </param>
+
+       <param>
+       <shortname>HGTMD_AEROSOL_MID</shortname>
        <scale>6.0</scale>
        </param>
 

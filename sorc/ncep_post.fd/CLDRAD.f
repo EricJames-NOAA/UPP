@@ -89,6 +89,9 @@
 !>                                |    logic, rather than a dedicated parameter number.
 !> 2025-05-05 | Ben Blake         | Add sanity checks for RRFSv1 implementation
 !> 2025-05-08 | Jaymes Kenyon     | For FV3 and MPAS applications, prevent cloud base from being diagnosed as below ground
+!> 2026-03-09 | Eric James        | Add column-integrated total dust and mass-weighted aerosol centroid
+!>                                     height, and scale FRP to be in Watts (consistent with GRIB2
+!>                                     field definition).
 !>
 !> @author Russ Treadon W/NP2 @date 1993-08-30
 !---------------------------------------------------------------------------------

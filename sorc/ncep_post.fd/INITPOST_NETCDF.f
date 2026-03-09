@@ -68,6 +68,7 @@
 !> 2025-07-21 | Sam Trahan    | If U10 and V10 are absent, calculate them from F10M if possible.
 !> 2025-09-11 | Jili Dong     | Read in surface specific humidity from history
 !> 2025-10-07 | Chris Hill    | Add capability to calculate and store cosine of solar zenith angle.
+!> 2026-03-09 | Eric James    | Add reading in of total dust emissions.
 !>
 !> @author Hui-Ya Chuang @date 2016-03-04
 !----------------------------------------------------------------------

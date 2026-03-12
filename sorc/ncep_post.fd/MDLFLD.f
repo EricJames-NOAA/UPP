@@ -3476,8 +3476,8 @@ refl_adj:           IF(REF_10CM(I,J,L)<=DBZmin) THEN
       IF (IGET(891) > 0 .and. IGET(892) > 0) THEN
         DO J=JSTA,JEND
           DO I=ista,iend
-            GRID1(I,J) = -999.
-            GRID2(I,J) = -999.
+            GRID1(I,J) = spval
+            GRID2(I,J) = spval
             DO L=1,NINT(LMH(I,J))
               IF (SMOKE(I,J,L,1) + FV3DUST(I,J,L,1) + COARSEPM(I,J,L,1)>=1.0) THEN
                  GRID1(I,J)=ZMID(I,J,L)

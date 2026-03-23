@@ -84,7 +84,7 @@
 !***************************************************************
 !     START CALPW HERE.
 !
-      ALLOCATE(COLMD(im,jm))
+      ALLOCATE(COLMD(ista:iend,jsta:jend))
       ALLOCATE(COLMD2(im,jm))
 !
 !     INITIALIZE PW TO 0.    

@@ -89,6 +89,7 @@
 !>                                |    logic, rather than a dedicated parameter number.
 !> 2025-05-05 | Ben Blake         | Add sanity checks for RRFSv1 implementation
 !> 2025-05-08 | Jaymes Kenyon     | For FV3 and MPAS applications, prevent cloud base from being diagnosed as below ground
+!> 2025-11-13 | Jaymes Kenyon     | Minor refactoring: the value of "cloud_def_p" (constant) is now set in params_mod
 !> 2026-03-09 | Eric James        | Add column-integrated total dust and mass-weighted aerosol centroid
 !>                                     height, and scale FRP to be in Watts (consistent with GRIB2
 !>                                     field definition).
@@ -127,7 +128,7 @@
                          PWAT,DUSTPM10,MAOD,NO3CB,NH4CB,aqm_aod550
       use masks,    only: LMH, HTM
       use params_mod, only: TFRZ, D00, H99999, QCLDMIN, CFRmin_BASE_TOP,      &
-                            SMALL, D608, H1, ROG,                             &
+                            CLOUD_DEF_P, SMALL, D608, H1, ROG,                &
                             GI, RD, QCONV, ABSCOEFI, ABSCOEF, STBOL, PQ0, A2, &
                             A3, A4
       use ctlblk_mod, only: JSTA, JEND, SPVAL, MODELNAME, SUBMODELNAME,       &
@@ -160,7 +161,7 @@
                                          CLDP, CLDZ, CLDT, CLDZCu
       REAL,dimension(lm)       :: RHB, watericetotal, pabovesfc
       REAL   :: watericemax, wimin, zcldbase, zcldtop, zpbltop,              &
-                rhoice, coeffp, exponfp, const1, cloud_def_p,                &
+                rhoice, coeffp, exponfp, const1,                             &
                 pcldbase, rhoair, vovermd, concfp, betav,                    &
                 vertvis, tx, tv, pol, esx, es, e, zsf, zcld, frac
       integer   nfog, nfogn(7),npblcld,nlifr, k1, k2, ll, ii, ib, n, jj,     &
@@ -1932,8 +1933,6 @@ snow_check:   IF (QQS(I,J,L)>=QCLDmin) THEN
          nfogn(k) = 0
         end do
         npblcld = 0
-
-        Cloud_def_p = 0.0000001
 
         DO J=JSTA,JEND
           DO I=ISTA,IEND

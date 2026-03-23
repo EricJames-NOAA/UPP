@@ -3936,7 +3936,9 @@ snow_check:   IF (QQS(I,J,L)>=QCLDmin) THEN
       IF (IGET(894)>0) THEN
         DO J=JSTA,JEND
           DO I=ISTA,IEND
-            GRID1(I,J) = EMDUST(I,J)
+            if(EMDUST(i,j)/=spval)then
+              GRID1(I,J) = EMDUST(I,J)/(1E9)
+            endif
           ENDDO
         ENDDO
         if(grib=='grib2') then

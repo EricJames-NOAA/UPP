@@ -58,7 +58,7 @@
       use vrbls4d,    only: smoke, fv3dust, coarsepm
       use masks,      only: htm
       use params_mod, only: tfrz, gi
-      use ctlblk_mod, only: lm, jsta, jend, im, spval, ista, iend
+      use ctlblk_mod, only: lm, jsta, jend, im, jm, spval, ista, iend
       use upp_physics, only: FPVSNEW
 !- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       implicit none
@@ -79,10 +79,13 @@
       INTEGER LLMH,I,J,L
       REAL ALPM,DZ,PM,PWSUM,RHOAIR,DP,ES
       REAL QDUM(ista:iend,jsta:jend), PWS(ista:iend,jsta:jend),QS(ista:iend,jsta:jend)
-      REAL COLMD(ista:iend,jsta:jend), COLMD2(ista:iend,jsta:jend)
+      REAL, ALLOCATABLE ::  COLMD(:,:), COLMD2(:,:)
 !
 !***************************************************************
 !     START CALPW HERE.
+!
+      ALLOCATE(COLMD(im,jm))
+      ALLOCATE(COLMD2(im,jm))
 !
 !     INITIALIZE PW TO 0.    
 !     
@@ -397,6 +400,9 @@
           ENDDO
         ENDDO
       endif
+
+      DEALLOCATE(COLMD)
+      DEALLOCATE(COLMD2)
 !
 !     END OF ROUTINE.
 !     

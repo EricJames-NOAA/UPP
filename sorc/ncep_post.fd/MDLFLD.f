@@ -73,6 +73,7 @@
 !!                       | apply (RI or THV). Restricted the smoothing of PBL height (for gust calculations) to
 !!                       | RAP/HRRR-era applications only. Additionally, added several descriptive in-code comments.
 !!   25-07-15 | J Duda | Read/process hourly-maximum composite reflectivity
+!!   25-03-23 | E James  | Add computation of aerosol layer height top and bottom
 !!
 !! USAGE:    CALL MDLFLD
 !!   INPUT ARGUMENT LIST:

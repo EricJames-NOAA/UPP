@@ -1085,7 +1085,7 @@
 ! GRAUP
 ! E. James - 8 Dec 2017: SMOKE from WRF-CHEM
 !
-     VarName='smoke'
+     VarName='SMOKE_FINE'
       call getVariable(fileName,DateStr,DataHandle,VarName,DUM3D,        & 
          IM+1,1,JM+1,LM+1,IM,JS,JE,LM)
       do l = 1,lm

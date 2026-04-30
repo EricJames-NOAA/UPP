@@ -3921,7 +3921,7 @@ snow_check:   IF (QQS(I,J,L)>=QCLDmin) THEN
       IF (IGET(740)>0) THEN
         DO J=JSTA,JEND
           DO I=ISTA,IEND
-            GRID1(I,J) = 1000000.0*MEAN_FRP(I,J)
+            GRID1(I,J) = MEAN_FRP(I,J)
           ENDDO
         ENDDO
         if(grib=='grib2') then

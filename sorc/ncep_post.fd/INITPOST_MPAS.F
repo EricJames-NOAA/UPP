@@ -42,12 +42,14 @@
 !>                           | descriptive comments for other fields
 !> 2026-04-22 | Alyson Stahl | Fix rank mismatch warnings for gcc compiler by adding
 !>                           | PT_tmp3d, SLLEVEL_tmp, and SLDPTH_tmp arrays
+!> 2026-04-30 | Eric James   | Add smoke_fine tracer,  biomass burning
+!>                           | emissions, and FRP for MPAS
 !>
 !> @author Jaymes Kenyon (GSL) @date 2024-08-14
 
       SUBROUTINE INITPOST_MPAS
 
-      use vrbls4d, only: dust, smoke
+      use vrbls4d, only: dust, smoke, ebb
       use vrbls3d, only: t, u, uh, v, vh, wh, q, pmid, t, omga, pint, alpint,      &
               qqr, qqs, qqi, qqg, qqnw, qqni, qqnr, qqng, cwm, qqw, qqi, qqr, qqs, extcof55,&
               q2, zint, zmid, ttnd, cfr, cfr_raw, qc_bl, REF_10CM,                 &
@@ -729,6 +731,16 @@
          end do
       ENDIF
 
+      VarName='E_BB_OUT_SMOKE_FINE'
+      call getVariable(fileName,DateStr,DataHandle,VarName,DUM3D,       &
+        IM+1,1,JM+1,LM+1,IM,JS,JE,LM)
+      do l = 1, lm
+       do j = jsta_2l, jend_2u
+        do i = 1, im
+          ebb ( i, j, l, 1 ) = dum3d ( i, j, l )
+        end do
+       end do
+      end do
 
 ! Pressure at model top
       VarName='P_TOP'
@@ -1082,8 +1094,8 @@
           enddo
       ENDIF
 
-! GRAUP
-! E. James - 8 Dec 2017: SMOKE from WRF-CHEM
+!
+! E. James - 30 Apr 2026: SMOKE_FINE from MPAS
 !
      VarName='SMOKE_FINE'
       call getVariable(fileName,DateStr,DataHandle,VarName,DUM3D,        & 
@@ -2259,7 +2271,7 @@ endif  ! 1==2
 !
 ! E. James - 8 Dec 2017: Fire Radiative Power from HRRR-smoke
 !
-      VarName='MEAN_FRP'
+      VarName='FRP_OUT'
 ! Mean fire radiative power
       call getVariable(fileName,DateStr,DataHandle,VarName,DUMMY, &
         IM,1,JM,1,IM,JS,JE,1)

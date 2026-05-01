@@ -93,6 +93,8 @@
 !> 2026-03-09 | Eric James        | Add column-integrated total dust and mass-weighted aerosol centroid
 !>                                     height, and scale FRP to be in Watts (consistent with GRIB2
 !>                                     field definition).
+!> 2026-05-01 | Eric James        | Add check for model name to determine whether a
+!>                                     determine whether a conversion from MW to W is needed for fire radiative power
 !>
 !> @author Russ Treadon W/NP2 @date 1993-08-30
 !---------------------------------------------------------------------------------

@@ -68,7 +68,7 @@
               vegfrc, acsnow, cmc, sst, thz0, qs, qvg,                             &
               z0, ustar, rmol, radot, ths, acsnom, cuprec, ancprc, acprec,         &
               rainc_bucket, pcp_bucket, cprate, prec, snownc, snow_bucket,         &
-              graup_bucket, hail_bucket, swddni, swddif, mean_frp,                 &
+              graup_bucket, hail_bucket, swddni, swddif, mean_frp, hwp,            &
               acgraup, acfrain,                                                    &
               graupelnc, albedo, rswin, rswout, swdnbc, swddnic,                   &
               swddifc, swupbc, swupt, czen, czmean, rlwin, lwdnbc, lwupbc,         &
@@ -2278,6 +2278,16 @@ endif  ! 1==2
        do j = jsta_2l, jend_2u
         do i = 1, im
              MEAN_FRP ( i, j ) = dummy ( i, j )
+        end do
+       end do
+
+      VarName='HWP'
+! Hourly wildfire potential
+      call getVariable(fileName,DateStr,DataHandle,VarName,DUMMY,     &
+        IM,1,JM,1,IM,JS,JE,1)
+       do j = jsta_2l, jend_2u
+        do i = 1, im
+             HWP ( i, j ) = dummy ( i, j )
         end do
        end do
 

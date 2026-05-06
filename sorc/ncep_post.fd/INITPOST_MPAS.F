@@ -62,7 +62,7 @@
               wspd10umax,wspd10vmax,refdm10c_max,max_compref,                      &
               hail_max2d,hail_maxk1,hail_maxhailcast,ltg1_max,                     &
               ltg2_max, ltg3_max, nci_ltg, nca_ltg, nci_wq, nca_wq, nci_refd,      &
-              u10, v10, th10, q10, tshltr,                                         &
+              u10, v10, th10, q10, tshltr, pshltr,                                 &
               prate_max,max_prate_1min,max_prate_5min,max_prate_10min,             &
               nca_refd, qv2m, qshltr, smstav, ssroff, bgroff,                      &
               vegfrc, acsnow, cmc, sst, thz0, qs, qvg,                             &
@@ -1708,16 +1708,27 @@ endif  ! 1==2
         end do
        end do
 
-! get 2-m theta 
-      VarName='TH2'
-      call getVariable(fileName,DateStr,DataHandle,VarName,DUMMY,        &  
+! get 2-n temperature
+      VarName='T2'
+      call getVariable(fileName,DateStr,DataHandle,VarName,DUMMY,        &
         IM,1,JM,1,IM,JS,JE,1)
        do j = jsta_2l, jend_2u
         do i = 1, im
-            TSHLTR ( i, j ) = dummy ( i, j )
+            tshltr ( i, j ) = dummy ( i, j )
         end do
        end do
-!       print*,'TSHLTR at ',ii,jj,' = ',TSHLTR(ii,jj)
+
+! GFS does not have 2m pres, estimate it, also convert t to theta 
+      Do j = jsta_2l, jend_2u
+        Do i = 1, im
+          PSHLTR(I,J)=pint(I,J,lm+1)*EXP(-0.068283/tshltr(i,j))
+          tshltr(i,j)= tshltr(i,j)*(p1000/PSHLTR(I,J))**CAPA ! convert to theta
+!          if (j == jm/2 .and. mod(i,50) == 0)
+!     +   print*,'sample 2m T and P after scatter= '
+!     +   ,i,j,tshltr(i,j),pshltr(i,j)
+        end do
+      end do
+
 ! get 2-m mixing ratio
       VarName='Q2'
       call getVariable(fileName,DateStr,DataHandle,VarName,DUMMY,        &  

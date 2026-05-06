@@ -43,7 +43,7 @@
 !> 2026-04-22 | Alyson Stahl | Fix rank mismatch warnings for gcc compiler by adding
 !>                           | PT_tmp3d, SLLEVEL_tmp, and SLDPTH_tmp arrays
 !> 2026-04-30 | Eric James   | Add smoke_fine tracer,  biomass burning
-!>                           | emissions, and FRP for MPAS
+!>                           | emissions, FRP, and hourly wildfire potential for MPAS
 !>
 !> @author Jaymes Kenyon (GSL) @date 2024-08-14
 

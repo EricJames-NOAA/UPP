@@ -1708,7 +1708,7 @@ endif  ! 1==2
         end do
        end do
 
-! get 2-m theta
+! get 2-m theta 
       VarName='TH2'
       call getVariable(fileName,DateStr,DataHandle,VarName,DUMMY,        &
         IM,1,JM,1,IM,JS,JE,1)
@@ -1718,7 +1718,6 @@ endif  ! 1==2
         end do
        end do
 !       print*,'TSHLTR at ',ii,jj,' = ',TSHLTR(ii,jj)
-
 ! get 2-m mixing ratio
       VarName='Q2'
       call getVariable(fileName,DateStr,DataHandle,VarName,DUMMY,        &  

@@ -1710,7 +1710,8 @@ endif  ! 1==2
 
 ! get 2-m theta 
       VarName='TH2'
-      call getVariable(fileName,DateStr,DataHandle,VarName,DUMMY,        & 
+      call getVariable(fileName,DateStr,DataHandle,VarName,DUMMY,        &  
+        IM,1,JM,1,IM,JS,JE,1)
        do j = jsta_2l, jend_2u
         do i = 1, im
             TSHLTR ( i, j ) = dummy ( i, j )

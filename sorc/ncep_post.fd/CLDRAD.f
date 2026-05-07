@@ -93,8 +93,6 @@
 !> 2026-03-09 | Eric James        | Add column-integrated total dust and mass-weighted aerosol centroid
 !>                                     height, and scale FRP to be in Watts (consistent with GRIB2
 !>                                     field definition).
-!> 2026-05-01 | Eric James        | Add check for model name to determine whether a
-!>                                     conversion from MW to W is needed for fire radiative power
 !>
 !> @author Russ Treadon W/NP2 @date 1993-08-30
 !---------------------------------------------------------------------------------
@@ -3921,19 +3919,11 @@ snow_check:   IF (QQS(I,J,L)>=QCLDmin) THEN
 
 ! Instantaneous MEAN_FRP
       IF (IGET(740)>0) THEN
-        IF(MODELNAME == 'FV3R') THEN
-          DO J=JSTA,JEND
-            DO I=ISTA,IEND
-              GRID1(I,J) = 1000000.0*MEAN_FRP(I,J)
-            ENDDO
+        DO J=JSTA,JEND
+          DO I=ISTA,IEND
+            GRID1(I,J) = 1000000.0*MEAN_FRP(I,J)
           ENDDO
-        ELSE
-          DO J=JSTA,JEND
-            DO I=ISTA,IEND
-              GRID1(I,J) = MEAN_FRP(I,J)
-            ENDDO
-          ENDDO
-        ENDIF
+        ENDDO
         if(grib=='grib2') then
           cfld=cfld+1
           fld_info(cfld)%ifld=IAVBLFLD(IGET(740))

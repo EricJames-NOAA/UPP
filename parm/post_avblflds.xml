@@ -7212,6 +7212,15 @@
     </param>
 
     <param>
+       <post_avblfldidx>770</post_avblfldidx>
+       <shortname>AOD_ON_SURFACE</shortname>
+       <pdstmpl>tmpl4_0</pdstmpl>
+       <pname>AOTK</pname>
+       <fixed_sfc1_type>surface</fixed_sfc1_type>
+       <scale>5.0</scale>
+    </param>
+
+    <param>
        <post_avblfldidx>771</post_avblfldidx>
        <shortname>AVE_PM10_ON_SPEC_HGT_LVL_ABOVE_GRND_8m</shortname>
        <pdstmpl>tmpl4_46</pdstmpl>

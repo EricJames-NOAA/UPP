@@ -476,7 +476,7 @@
 !     21 Jul 2026
 !     In MPAS, AOD is computed in the model and output as a 2D field.
 !     There is also a second AOD calculation (for testing) under
-!     variable 770, named AOD_ON_SURFACE (Mie calculation).
+!     variable 715, named AOD_ON_SURFACE (Mie calculation).
       IF (IGET(735) > 0) THEN
        IF (MODELNAME == 'RAPR' .and. SUBMODELNAME == 'MPAS') then
         DO J=JSTA,JEND
@@ -506,7 +506,7 @@
         endif
       ENDIF
 
-      IF (IGET(770) > 0) THEN
+      IF (IGET(715) > 0) THEN
         DO J=JSTA,JEND
           DO I=ISTA,IEND
             IF (TAOD5502D(I,J)<spval) THEN
@@ -518,7 +518,7 @@
         ENDDO
         if(grib == "grib2" )then
           cfld = cfld + 1
-          fld_info(cfld)%ifld = IAVBLFLD(IGET(770))
+          fld_info(cfld)%ifld = IAVBLFLD(IGET(715))
 !$omp parallel do private(i,j,ii,jj)
           do j=1,jend-jsta+1
             jj = jsta+j-1
@@ -4644,19 +4644,19 @@ snow_check:   IF (QQS(I,J,L)>=QCLDmin) THEN
         ENDIF
       END IF !aqf_on
 
-      !2D AEROSOL OPTICAL DEPTH AT 550 NM
-      IF (IGET(715)>0) THEN
-         DO J=JSTA,JEND
-           DO I=ISTA,IEND
-             grid1(i,j)=taod5502d(i,j)
-           ENDDO
-         ENDDO
-         if(grib=="grib2" )then
-           cfld=cfld+1
-           fld_info(cfld)%ifld=IAVBLFLD(IGET(715))
-           datapd(1:iend-ista+1,1:jend-jsta+1,cfld)=GRID1(ista:iend,jsta:jend)
-         endif
-      ENDIF
+!      !2D AEROSOL OPTICAL DEPTH AT 550 NM
+!      IF (IGET(715)>0) THEN
+!         DO J=JSTA,JEND
+!           DO I=ISTA,IEND
+!             grid1(i,j)=taod5502d(i,j)
+!           ENDDO
+!         ENDDO
+!         if(grib=="grib2" )then
+!           cfld=cfld+1
+!           fld_info(cfld)%ifld=IAVBLFLD(IGET(715))
+!           datapd(1:iend-ista+1,1:jend-jsta+1,cfld)=GRID1(ista:iend,jsta:jend)
+!         endif
+!      ENDIF
    
       !AEROSOL ASYMMETRY FACTOR
       IF (IGET(716)>0) THEN

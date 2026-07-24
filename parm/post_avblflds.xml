@@ -6742,6 +6742,15 @@
     </param>
 
     <param>
+       <post_avblfldidx>715</post_avblfldidx>
+       <shortname>AOD_ON_SURFACE</shortname>
+       <pdstmpl>tmpl4_0</pdstmpl>
+       <pname>AOTK</pname>
+       <fixed_sfc1_type>surface</fixed_sfc1_type>
+       <scale>5.0</scale>
+    </param>
+
+    <param>
        <post_avblfldidx>719</post_avblfldidx>
        <shortname>INST_USWRF_ON_TOP_OF_ATMOS</shortname>
        <pname>USWRF</pname>
@@ -7209,15 +7218,6 @@
        <table_info>NCEP</table_info>
        <fixed_sfc1_type>entire_atmos</fixed_sfc1_type>
        <scale>6.0</scale>
-    </param>
-
-    <param>
-       <post_avblfldidx>770</post_avblfldidx>
-       <shortname>AOD_ON_SURFACE</shortname>
-       <pdstmpl>tmpl4_0</pdstmpl>
-       <pname>AOTK</pname>
-       <fixed_sfc1_type>surface</fixed_sfc1_type>
-       <scale>5.0</scale>
     </param>
 
     <param>
